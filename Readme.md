@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Сергей Якимов](https://up.htmlacademy.ru/javascript/16/user/834473).
-* Наставник: `Неизвестно`.
+* Наставник: [Мурат Баркинхоев](https://htmlacademy.ru/profile/id186857).
 
 ---
 
