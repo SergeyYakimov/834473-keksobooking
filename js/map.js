@@ -28,7 +28,7 @@ var calculateRandomInt = function (min, max) {
 };
 
 var shuffle = function (arr) {
-  var arrNew = arr;
+  var arrNew = arr.slice(0);
   return arrNew.sort(function () {
     return Math.random() - 0.5;
   });
