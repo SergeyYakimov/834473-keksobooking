@@ -28,7 +28,8 @@ var calculateRandomInt = function (min, max) {
 };
 
 var shuffle = function (arr) {
-  return arr.sort(function () {
+  var arrNew = arr;
+  return arrNew.sort(function () {
     return Math.random() - 0.5;
   });
 };
@@ -68,7 +69,6 @@ var makeAnnouncement = function () {
         y: calculateRandomInt(MIN_Y, MAX_Y)
       }
     };
-    announcements.push(announcements[i]);
   }
   return announcements;
 };
