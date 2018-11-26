@@ -110,9 +110,9 @@ var getTranslation = function (type) {
   return translation;
 };
 
-var getAllFeatures = function(records) {
+var getAllFeatures = function (records) {
   var fragmentLi = document.createDocumentFragment();
-   for (var i = 0; i < records.length; i++) {
+  for (var i = 0; i < records.length; i++) {
     var newLi = document.createElement('li');
     newLi.classList.add('popup__feature', 'popup__feature--' + records[i]);
     fragmentLi.appendChild(newLi);
@@ -125,7 +125,7 @@ var fillFeatures = function (features, featuresList) {
   featuresList.appendChild(features);
 };
 
-var getPhotos = function (photos,photosList) {
+var getPhotos = function (photos, photosList) {
   var firstImg = photosList.querySelector('.popup__photo');
   firstImg.src = photos[0];
 
