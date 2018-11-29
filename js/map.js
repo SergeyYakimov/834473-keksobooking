@@ -113,7 +113,7 @@ var getFeatures = function () {
 var makeAnnouncement = function () {
   var useTitles = shuffle(TITLES);
   var announcements = [];
-  for (var i = 0; i < ANNOUNCEMENTS_QUANTITY; i++) {
+  for (i = 0; i < ANNOUNCEMENTS_QUANTITY; i++) {
     announcements[i] =
     {
       author:
