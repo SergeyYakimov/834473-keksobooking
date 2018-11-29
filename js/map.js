@@ -14,6 +14,8 @@ var HEIGHT_PIN = 82;
 var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 62;
 var MAIN_PIN_POINTER_HEIGHT = 10;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var VIEW_HOUSES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKINS = ['12:00', '13:00', '14:00'];
@@ -30,6 +32,8 @@ var fieldsets = document.querySelectorAll('fieldset');
 var filtersFields = filtersContainer.querySelectorAll('select');
 var adForm = document.querySelector('.ad-form');
 var adAddress = adForm.querySelector('#address');
+
+adAddress.setAttribute('readonly', 'readonly');
 
 var getMainPinCoordinats = function (info) {
   return {x: Math.floor(parseInt(info.style.left, 10) + MAIN_PIN_WIDTH / 2), y: Math.floor(parseInt(info.style.top, 10) + MAIN_PIN_HEIGHT + MAIN_PIN_POINTER_HEIGHT)};
@@ -79,6 +83,13 @@ var mainPinClickHandler = function () {
 };
 
 mainPin.addEventListener('click', mainPinClickHandler);
+
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    makePageActive();
+    getPinsActivePage();
+  }
+});
 
 var calculateRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max + 1 - min)) + min;
@@ -138,6 +149,19 @@ var makePin = function (pinInfo) {
   pinElement.style.top = (pinInfo.location.y - HEIGHT_PIN / 2) + 'px';
   pinImage.src = pinInfo.author.avatar;
   pinImage.alt = pinInfo.offer.title;
+
+
+  pinElement.addEventListener('click', function () {
+    var newCard = renderCard(pinInfo);
+    map.insertBefore(newCard, filtersContainer);
+  });
+
+  pinElement.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      var newCard = renderCard(pinInfo);
+      map.insertBefore(newCard, filtersContainer);
+    }
+  });
 
   return pinElement;
 };
@@ -202,9 +226,3 @@ var renderCard = function (card) {
 
   return cardElement;
 };
-
-
-
-
-// var newCard = renderCard(makeAnnouncement()[0]);
-// map.insertBefore(newCard, filtersContainer);
