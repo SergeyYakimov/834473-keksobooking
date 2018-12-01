@@ -16,12 +16,21 @@ var MAIN_PIN_HEIGHT = 62;
 var MAIN_PIN_POINTER_HEIGHT = 10;
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
+var MIN_CAPACITY = 0;
+var MAX_ROOM_NUMBER = 100;
 var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var VIEW_HOUSES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKINS = ['12:00', '13:00', '14:00'];
 var CHECKOUTS = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+
+var minPriceAdType = {
+  bungalo: '0',
+  flat: '1000',
+  house: '5000',
+  palace: '10000'
+};
 var map = document.querySelector('.map');
 var filtersContainer = map.querySelector('.map__filters-container');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -32,6 +41,58 @@ var fieldsets = document.querySelectorAll('fieldset');
 var filtersFields = filtersContainer.querySelectorAll('select');
 var adForm = document.querySelector('.ad-form');
 var adAddress = adForm.querySelector('#address');
+var adType = adForm.querySelector('#type');
+var adPrice = adForm.querySelector('#price');
+var adTimeIn = adForm.querySelector('#timein');
+var adTimeOut = adForm.querySelector('#timeout');
+var numberOfRooms = adForm.querySelector('#room_number');
+var numberOfSeats = adForm.querySelector('#capacity');
+
+var setMinPriceForAd = function () {
+  var minPrice = minPriceAdType[adType.value];
+  adPrice.min = minPrice;
+  adPrice.placeholder = minPrice;
+};
+
+var setTimeOut = function () {
+  var timeIn = adTimeIn.value;
+  adTimeOut.value = timeIn;
+};
+
+var setTimeIn = function () {
+  var timeOut = adTimeOut.value;
+  adTimeIn.value = timeOut;
+};
+
+adType.addEventListener('change', function () {
+  setMinPriceForAd();
+});
+
+adTimeIn.addEventListener('change', function () {
+  setTimeOut();
+});
+
+adTimeOut.addEventListener('change', function () {
+  setTimeIn();
+});
+
+var checkValidationOfCapacity = function () {
+  var capacity = parseInt(numberOfSeats.value);
+  var roomNumber = parseInt(numberOfRooms.value);
+  if (roomNumber >= capacity && capacity !== MIN_CAPACITY && roomNumber !== MAX_ROOM_NUMBER || capacity === MIN_CAPACITY && roomNumber === MAX_ROOM_NUMBER) {
+    numberOfSeats.setCustomValidity('');
+  } else {
+    numberOfSeats.setCustomValidity('Некорректное значение!!! No way!');
+  }
+};
+
+numberOfSeats.addEventListener('change', function () {
+  checkValidationOfCapacity();
+});
+
+numberOfRooms.addEventListener('change', function () {
+  checkValidationOfCapacity();
+});
 
 adAddress.setAttribute('readonly', 'readonly');
 
@@ -55,6 +116,8 @@ var makePageActive = function () {
     filtersFields[j].removeAttribute('disabled', 'disabled');
   }
   adForm.classList.remove('ad-form--disabled');
+  setMinPriceForAd();
+  checkValidationOfCapacity();
 };
 
 var getPinsActivePage = function () {
