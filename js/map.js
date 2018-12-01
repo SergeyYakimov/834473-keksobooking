@@ -47,6 +47,10 @@ var adTimeIn = adForm.querySelector('#timein');
 var adTimeOut = adForm.querySelector('#timeout');
 var numberOfRooms = adForm.querySelector('#room_number');
 var numberOfSeats = adForm.querySelector('#capacity');
+var adSubmit = adForm.querySelector('.ad-form__submit');
+var adInputs = adForm.querySelectorAll('input');
+var adSelects = adForm.querySelectorAll('select');
+
 
 var setMinPriceForAd = function () {
   var minPrice = minPriceAdType[adType.value];
@@ -92,6 +96,25 @@ numberOfSeats.addEventListener('change', function () {
 
 numberOfRooms.addEventListener('change', function () {
   checkValidationOfCapacity();
+});
+
+adSubmit.addEventListener('click', function() {
+  for (var i = 0; i < adInputs.length; i++) {
+    var input = adInputs[i];
+    if (input.checkValidity() === false) {
+      input.setAttribute('style', 'border: 2px solid red');
+    } else {
+      input.removeAttribute('style', 'border: 2px solid red');
+    }
+  }
+  for (var j = 0; j < adSelects.length; j++) {
+    var select = adSelects[j];
+    if (select.checkValidity() === false) {
+      select.setAttribute('style', 'border: 2px solid red');
+    } else {
+      select.removeAttribute('style', 'border: 2px solid red');
+    }
+  }
 });
 
 adAddress.setAttribute('readonly', 'readonly');
