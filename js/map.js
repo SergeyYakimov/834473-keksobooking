@@ -81,8 +81,8 @@ adTimeOut.addEventListener('change', function () {
 });
 
 var checkValidationOfCapacity = function () {
-  var capacity = parseInt(numberOfSeats.value);
-  var roomNumber = parseInt(numberOfRooms.value);
+  var capacity = parseInt(numberOfSeats.value, 10);
+  var roomNumber = parseInt(numberOfRooms.value, 10);
   if (roomNumber >= capacity && capacity !== MIN_CAPACITY && roomNumber !== MAX_ROOM_NUMBER || capacity === MIN_CAPACITY && roomNumber === MAX_ROOM_NUMBER) {
     numberOfSeats.setCustomValidity('');
   } else {
@@ -98,7 +98,7 @@ numberOfRooms.addEventListener('change', function () {
   checkValidationOfCapacity();
 });
 
-adSubmit.addEventListener('click', function() {
+adSubmit.addEventListener('click', function () {
   for (var i = 0; i < adInputs.length; i++) {
     var input = adInputs[i];
     if (input.checkValidity() === false) {
