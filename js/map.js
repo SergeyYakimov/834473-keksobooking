@@ -47,11 +47,9 @@ var adTimeIn = adForm.querySelector('#timein');
 var adTimeOut = adForm.querySelector('#timeout');
 var numberOfRooms = adForm.querySelector('#room_number');
 var numberOfSeats = adForm.querySelector('#capacity');
-var adSubmit = adForm.querySelector('.ad-form__submit');
 var adInputs = adForm.querySelectorAll('input');
 var adSelects = adForm.querySelectorAll('select');
 var isMapAndPinsActivated = false;
-
 
 var setMinPriceForAd = function () {
   var minPrice = minPriceAdType[adType.value];
@@ -148,7 +146,7 @@ var getMainPinCurrentPosition = function (x, y) {
     mainPin.style.left = (mainPin.offsetLeft - x) + 'px';
   }
   showAddress(mainPin);
-}
+};
 
 var makePageActive = function () {
   map.classList.remove('map--faded');
@@ -219,12 +217,12 @@ mainPin.addEventListener('mousedown', function (evt) {
       getPinsActivePage();
       isMapAndPinsActivated = true;
     }
-      var mainPinClickPreventDefault = function (dragEvt) {
-        dragEvt.preventDefault();
-        mainPin.removeEventListener('click', mainPinClickPreventDefault);
-      };
-      mainPin.addEventListener('click', mainPinClickPreventDefault);
+    var mainPinClickPreventDefault = function (dragEvt) {
+      dragEvt.preventDefault();
+      mainPin.removeEventListener('click', mainPinClickPreventDefault);
     };
+    mainPin.addEventListener('click', mainPinClickPreventDefault);
+  };
 
   document.addEventListener('mousemove', mainPinMouseMoveHandler);
   document.addEventListener('mouseup', mainPinMouseUpHandler);
@@ -377,4 +375,3 @@ var renderCard = function (card) {
 
   return cardElement;
 };
-
