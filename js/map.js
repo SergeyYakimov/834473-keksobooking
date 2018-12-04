@@ -212,7 +212,7 @@ mainPin.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mousemove', mainPinMouseMoveHandler);
     document.removeEventListener('mouseup', mainPinMouseUpHandler);
 
-    if (dragged && !isMapAndPinsActivated) {
+    if (!isMapAndPinsActivated) {
       makePageActive();
       getPinsActivePage();
       isMapAndPinsActivated = true;
