@@ -5,15 +5,15 @@ var MAX_ROOMS_QUANTITY = 5;
 var MAX_GUESTS_QUANTITY = 10;
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
-var MIN_X = 50;
-var MAX_X = 1150;
+var MIN_X = 0;
+var MAX_X = 1200;
 var MIN_Y = 130;
 var MAX_Y = 630;
 var WIDTH_PIN = 62;
 var HEIGHT_PIN = 82;
 var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 62;
-var MAIN_PIN_POINTER_HEIGHT = 10;
+var MAIN_PIN_POINTER_HEIGHT = 12;
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 var MIN_CAPACITY = 0;
@@ -47,10 +47,9 @@ var adTimeIn = adForm.querySelector('#timein');
 var adTimeOut = adForm.querySelector('#timeout');
 var numberOfRooms = adForm.querySelector('#room_number');
 var numberOfSeats = adForm.querySelector('#capacity');
-var adSubmit = adForm.querySelector('.ad-form__submit');
 var adInputs = adForm.querySelectorAll('input');
 var adSelects = adForm.querySelectorAll('select');
-
+var isMapAndPinsActivated = false;
 
 var setMinPriceForAd = function () {
   var minPrice = minPriceAdType[adType.value];
@@ -98,7 +97,7 @@ numberOfRooms.addEventListener('change', function () {
   checkValidationOfCapacity();
 });
 
-adSubmit.addEventListener('click', function () {
+adForm.addEventListener('submit', function () {
   for (var i = 0; i < adInputs.length; i++) {
     var input = adInputs[i];
     if (input.checkValidity() === false) {
@@ -130,6 +129,25 @@ var showAddress = function (info) {
 
 showAddress(mainPin);
 
+var getMainPinCurrentPosition = function (x, y) {
+  if ((mainPin.offsetTop - y) < (MIN_Y - MAIN_PIN_HEIGHT - MAIN_PIN_POINTER_HEIGHT)) {
+    mainPin.style.top = (MIN_Y - MAIN_PIN_HEIGHT - MAIN_PIN_POINTER_HEIGHT) + 'px';
+  } else if ((mainPin.offsetTop - y) > (MAX_Y - MAIN_PIN_HEIGHT - MAIN_PIN_POINTER_HEIGHT)) {
+    mainPin.style.top = (MAX_Y - MAIN_PIN_HEIGHT - MAIN_PIN_POINTER_HEIGHT) + 'px';
+  } else {
+    mainPin.style.top = (mainPin.offsetTop - y) + 'px';
+  }
+
+  if ((mainPin.offsetLeft - x) < (MIN_X - MAIN_PIN_WIDTH / 2)) {
+    mainPin.style.left = (MIN_X - MAIN_PIN_WIDTH / 2) + 'px';
+  } else if ((mainPin.offsetLeft - x) > (MAX_X - MAIN_PIN_WIDTH)) {
+    mainPin.style.left = (MAX_X - MAIN_PIN_WIDTH / 2) + 'px';
+  } else {
+    mainPin.style.left = (mainPin.offsetLeft - x) + 'px';
+  }
+  showAddress(mainPin);
+};
+
 var makePageActive = function () {
   map.classList.remove('map--faded');
   for (var i = 0; i < fieldsets.length; i++) {
@@ -151,9 +169,6 @@ var getPinsActivePage = function () {
     fragment.appendChild(makePin(notifications[i]));
   }
   pinList.appendChild(fragment);
-
-  mainPin.removeEventListener('click', mainPinClickHandler);
-  mainPin.removeEventListener('keydown', mainPinPushHandler);
 };
 
 for (var i = 0; i < fieldsets.length; i++) {
@@ -164,21 +179,51 @@ for (i = 0; i < filtersFields.length; i++) {
   filtersFields[i].setAttribute('disabled', 'disabled');
 }
 
-var mainPinClickHandler = function () {
-  makePageActive();
-  getPinsActivePage();
-};
+mainPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
 
-var mainPinPushHandler = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    makePageActive();
-    getPinsActivePage();
-  }
-};
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
 
-mainPin.addEventListener('click', mainPinClickHandler);
+  var mainPinMouseMoveHandler = function (moveEvt) {
+    moveEvt.preventDefault();
 
-mainPin.addEventListener('keydown', mainPinPushHandler);
+    var movement = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    getMainPinCurrentPosition(movement.x, movement.y);
+  };
+
+  var mainPinMouseUpHandler = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', mainPinMouseMoveHandler);
+    document.removeEventListener('mouseup', mainPinMouseUpHandler);
+
+    if (!isMapAndPinsActivated) {
+      makePageActive();
+      getPinsActivePage();
+      isMapAndPinsActivated = true;
+    }
+    var mainPinClickPreventDefault = function (dragEvt) {
+      dragEvt.preventDefault();
+      mainPin.removeEventListener('click', mainPinClickPreventDefault);
+    };
+    mainPin.addEventListener('click', mainPinClickPreventDefault);
+  };
+
+  document.addEventListener('mousemove', mainPinMouseMoveHandler);
+  document.addEventListener('mouseup', mainPinMouseUpHandler);
+});
 
 var calculateRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max + 1 - min)) + min;
@@ -242,17 +287,23 @@ var makePin = function (pinInfo) {
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       var mapCard = document.querySelector('.map__card');
-      mapCard.remove();
+      if (mapCard) {
+        mapCard.remove();
+      }
     }
   });
 
   pinElement.addEventListener('click', function () {
+    var mapCard = document.querySelector('.map__card');
+    if (mapCard) {
+      mapCard.remove();
+    }
     var newCard = renderCard(pinInfo);
     map.insertBefore(newCard, filtersContainer);
 
     var popupClose = document.querySelector('.popup__close');
     popupClose.addEventListener('click', function () {
-      var mapCard = document.querySelector('.map__card');
+      mapCard = document.querySelector('.map__card');
       mapCard.remove();
     });
   });
@@ -327,4 +378,3 @@ var renderCard = function (card) {
 
   return cardElement;
 };
-
