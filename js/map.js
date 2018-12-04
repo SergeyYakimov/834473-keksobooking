@@ -290,7 +290,9 @@ var makePin = function (pinInfo) {
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       var mapCard = document.querySelector('.map__card');
-      mapCard.remove();
+      if (mapCard) {
+        mapCard.remove();
+      }
     }
   });
 
@@ -304,7 +306,7 @@ var makePin = function (pinInfo) {
 
     var popupClose = document.querySelector('.popup__close');
     popupClose.addEventListener('click', function () {
-      var mapCard = document.querySelector('.map__card');
+      mapCard = document.querySelector('.map__card');
       mapCard.remove();
     });
   });
