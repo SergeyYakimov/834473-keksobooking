@@ -295,6 +295,10 @@ var makePin = function (pinInfo) {
   });
 
   pinElement.addEventListener('click', function () {
+    var mapCard = document.querySelector('.map__card');
+    if (mapCard) {
+      mapCard.remove();
+    }
     var newCard = renderCard(pinInfo);
     map.insertBefore(newCard, filtersContainer);
 
