@@ -187,11 +187,8 @@ mainPin.addEventListener('mousedown', function (evt) {
     y: evt.clientY
   };
 
-  var dragged = false;
-
   var mainPinMouseMoveHandler = function (moveEvt) {
     moveEvt.preventDefault();
-    dragged = true;
 
     var movement = {
       x: startCoords.x - moveEvt.clientX,
