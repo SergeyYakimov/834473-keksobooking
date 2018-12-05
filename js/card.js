@@ -21,7 +21,7 @@
 
   var getAllFeatures = function (records) {
     var fragmentLi = document.createDocumentFragment();
-    for (i = 0; i < records.length; i++) {
+    for (var i = 0; i < records.length; i++) {
       var newLi = document.createElement('li');
       newLi.classList.add('popup__feature', 'popup__feature--' + records[i]);
       fragmentLi.appendChild(newLi);
@@ -38,7 +38,7 @@
     var firstImg = photosList.querySelector('.popup__photo');
     firstImg.src = photos[0];
 
-    for (i = 1; i < photos.length; i++) {
+    for (var i = 1; i < photos.length; i++) {
       var newPhoto = firstImg.cloneNode();
       newPhoto.src = photos[i];
       photosList.appendChild(newPhoto);
