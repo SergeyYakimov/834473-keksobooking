@@ -1,12 +1,8 @@
 'use strict';
 
-var WIDTH_PIN = 62;
-var HEIGHT_PIN = 82;
 var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 62;
 var MAIN_PIN_POINTER_HEIGHT = 12;
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 var MIN_CAPACITY = 0;
 var MAX_ROOM_NUMBER = 100;
 
@@ -16,13 +12,11 @@ var minPriceAdType = {
   house: '5000',
   palace: '10000'
 };
-var map = document.querySelector('.map');
-var filtersContainer = map.querySelector('.map__filters-container');
-var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+
 var pinList = document.querySelector('.map__pins');
 var mainPin = pinList.querySelector('.map__pin--main');
 var fieldsets = document.querySelectorAll('fieldset');
-var filtersFields = filtersContainer.querySelectorAll('select');
+var filtersFields = window.pin.filtersContainer.querySelectorAll('select');
 var adForm = document.querySelector('.ad-form');
 var adAddress = adForm.querySelector('#address');
 var adType = adForm.querySelector('#type');
@@ -133,7 +127,7 @@ var getMainPinCurrentPosition = function (x, y) {
 };
 
 var makePageActive = function () {
-  map.classList.remove('map--faded');
+  window.pin.map.classList.remove('map--faded');
   for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].removeAttribute('disabled', 'disabled');
   }
@@ -150,7 +144,7 @@ var getPinsActivePage = function () {
   var notifications = window.data.makeAnnouncement();
 
   for (i = 0; i < notifications.length; i++) {
-    fragment.appendChild(makePin(notifications[i]));
+    fragment.appendChild(window.pin.makePin(notifications[i]));
   }
   pinList.appendChild(fragment);
 };
@@ -208,46 +202,3 @@ mainPin.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', mainPinMouseMoveHandler);
   document.addEventListener('mouseup', mainPinMouseUpHandler);
 });
-
-var makePin = function (pinInfo) {
-  var pinElement = pinTemplate.cloneNode(true);
-  var pinImage = pinElement.querySelector('img');
-
-  pinElement.style.left = (pinInfo.location.x - WIDTH_PIN / 2) + 'px';
-  pinElement.style.top = (pinInfo.location.y - HEIGHT_PIN / 2) + 'px';
-  pinImage.src = pinInfo.author.avatar;
-  pinImage.alt = pinInfo.offer.title;
-
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      var mapCard = document.querySelector('.map__card');
-      if (mapCard) {
-        mapCard.remove();
-      }
-    }
-  });
-
-  pinElement.addEventListener('click', function () {
-    var mapCard = document.querySelector('.map__card');
-    if (mapCard) {
-      mapCard.remove();
-    }
-    var newCard = window.card.renderCard(pinInfo);
-    map.insertBefore(newCard, filtersContainer);
-
-    var popupClose = document.querySelector('.popup__close');
-    popupClose.addEventListener('click', function () {
-      mapCard = document.querySelector('.map__card');
-      mapCard.remove();
-    });
-  });
-
-  pinElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      var newCard = window.card.renderCard(pinInfo);
-      map.insertBefore(newCard, filtersContainer);
-    }
-  });
-
-  return pinElement;
-};
