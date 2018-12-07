@@ -73,6 +73,9 @@
     minX: MIN_X,
     minY: MIN_Y,
     maxX: MAX_X,
-    maxY: MAX_Y
+    maxY: MAX_Y,
+    checkins: CHECKINS,
+    checkouts: CHECKOUTS,
+    viewHouses: VIEW_HOUSES
   };
 })();

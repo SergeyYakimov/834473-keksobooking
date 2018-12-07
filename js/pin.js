@@ -32,11 +32,12 @@
       if (mapCard) {
         mapCard.remove();
       }
+      pinElement.classList.add('map__pin--active');
       var newCard = window.card.renderCard(pinInfo);
       map.insertBefore(newCard, filtersContainer);
 
       var popupClose = document.querySelector('.popup__close');
-      popupClose.addEventListener('click', function () {
+        popupClose.addEventListener('click', function () {
         mapCard = document.querySelector('.map__card');
         mapCard.remove();
       });
