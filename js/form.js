@@ -174,10 +174,11 @@
 
     var loadHandler = function () {
       resetPage();
+      window.messageBlock.showSuccess();
     };
 
     var errorHandler = function (message) {
-      alert(message);
+      window.messageBlock.showError(message);
     };
 
     window.backend.save(AD_URL, new FormData(adForm), loadHandler, errorHandler);

@@ -38,7 +38,7 @@
       if (xhr.status === STATUS.done) {
         onLoad();
       } else {
-        onError('Ошибка: не получилось отправить данные на сервер! Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
@@ -46,7 +46,7 @@
       onError('Проблема соединения с сетью');
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не был выполнен за ' + xhr.timeout + 'мс');
+      onError('Загрузка объявления не была выполнена за ' + xhr.timeout + 'мс');
     });
 
     xhr.timeout = TIMEOUT;

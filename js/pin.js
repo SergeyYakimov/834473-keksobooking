@@ -3,7 +3,6 @@
 (function () {
   var WIDTH_PIN = 62;
   var HEIGHT_PIN = 82;
-  var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
   var map = document.querySelector('.map');
   var filtersContainer = map.querySelector('.map__filters-container');
@@ -49,7 +48,7 @@
     pinImage.alt = pinInfo.offer.title;
 
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
+      if (evt.keyCode === window.messageBlock.escKeycode) {
         removeMapCard();
         deactivatePin();
       }
