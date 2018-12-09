@@ -35,19 +35,19 @@
       return fragmentLi;
     };
 
-    var fillFeatures = function (features, featuresList) {
-      featuresList.innerHTML = '';
-      featuresList.appendChild(features);
+    var fillFeatures = function (features, list) {
+      list.innerHTML = '';
+      list.appendChild(features);
     };
 
-    var getPhotos = function (photos, photosList) {
-      var firstImg = photosList.querySelector('.popup__photo');
+    var getPhotos = function (photos, list) {
+      var firstImg = list.querySelector('.popup__photo');
       firstImg.src = photos[0];
 
       for (var i = 1; i < photos.length; i++) {
         var newPhoto = firstImg.cloneNode();
         newPhoto.src = photos[i];
-        photosList.appendChild(newPhoto);
+        list.appendChild(newPhoto);
       }
     };
 
