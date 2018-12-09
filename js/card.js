@@ -23,6 +23,7 @@
     var cardElement = cardTemplate.cloneNode(true);
     var featuresList = cardElement.querySelector('.popup__features');
     var photosList = cardElement.querySelector('.popup__photos');
+    var cardDescription = cardElement.querySelector('.popup__description');
 
     var getAllFeatures = function (records) {
       var fragmentLi = document.createDocumentFragment();
@@ -61,7 +62,11 @@
     } else {
       cardElement.removeChild(featuresList);
     }
-    cardElement.querySelector('.popup__description').textContent = card.offer.description;
+    if (card.offer.description) {
+      cardDescription.textContent = card.offer.description;
+    } else {
+      cardElement.removeChild(cardDescription);
+    }
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
     if (card.offer.photos.length) {
       getPhotos(card.offer.photos, photosList);

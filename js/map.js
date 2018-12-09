@@ -37,13 +37,14 @@ var makePageActive = function () {
 
 var getPinsActivePage = function (info) {
   var fragment = document.createDocumentFragment();
-
-  for (i = 0; i < info.length; i++) {
-    if ('offer' in info[i]) {
-      fragment.appendChild(window.pin.makePin(info[i]));
+  if (info) {
+    for (i = 0; i < info.length; i++) {
+      if ('offer' in info[i]) {
+        fragment.appendChild(window.pin.makePin(info[i]));
+      }
     }
+    window.form.pinList.appendChild(fragment);
   }
-  window.form.pinList.appendChild(fragment);
 };
 
 for (var i = 0; i < window.form.fieldsets.length; i++) {

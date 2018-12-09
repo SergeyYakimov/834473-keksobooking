@@ -44,7 +44,7 @@
   };
 
   var showError = function (message) {
-    errorBlock.querySelector('.error__message').textContent = 'Ошибка загрузки объявления. ' + message;
+    errorBlock.querySelector('.error__message').textContent = 'Ошибка загрузки. ' + message;
     mainBlock.appendChild(errorBlock);
     addCloseMessageListeners();
     errorButton.addEventListener('click', messageClickHandler);

@@ -14,14 +14,14 @@
       if (xhr.status === STATUS.done) {
         onLoad(xhr.response);
       } else {
-        onError('Ошибка: не получилось загрузить данные с сервера! Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Не получилось загрузить данные с сервера! Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError('Запрос на сервер не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
     xhr.timeout = TIMEOUT;
@@ -38,7 +38,7 @@
       if (xhr.status === STATUS.done) {
         onLoad();
       } else {
-        onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Объявление не загружено. Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
