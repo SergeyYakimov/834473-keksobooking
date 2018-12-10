@@ -1,58 +1,45 @@
 'use strict';
 
 (function () {
-  var TIMEOUT = 15000;
   var STATUS = {
     done: 200
   };
+  var METHOD = {
+    get: 'GET',
+    post: 'POST'
+  };
+  var TEXT_ERROR_STATUS = 'Cтатус ответа: /status/ /statusText/';
+  var TEXT_OF_ERROR = 'Произошла ошибка соединения c сетью';
+  var timeout = 15000;
+  var textOfTimeout = 'Запрос на сервер не успел выполниться за ' + timeout + 'мс';
 
-  var load = function (url, onLoad, onError) {
+  var receiveXhr = function (method, url, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS.done) {
         onLoad(xhr.response);
       } else {
-        onError('Не получилось загрузить данные с сервера! Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Не получилось загрузить информацию' + TEXT_ERROR_STATUS.replace('/status/', xhr.status).replace('/statusText/', xhr.statusText));
       }
     });
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+     xhr.addEventListener('error', function () {
+      onError(TEXT_OF_ERROR);
     });
-    xhr.addEventListener('timeout', function () {
-      onError('Запрос на сервер не успел выполниться за ' + xhr.timeout + 'мс');
+     xhr.addEventListener('timeout', function () {
+      onError(textOfTimeout);
     });
+     xhr.timeout = timeout;
+     xhr.open(method, url);
+     return xhr;
+  };
 
-    xhr.timeout = TIMEOUT;
-
-    xhr.open('GET', url);
-    xhr.send();
+  var load = function (url, onLoad, onError) {
+    receiveXhr(METHOD.get, url, onLoad, onError).send();
   };
 
   var save = function (url, data, onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === STATUS.done) {
-        onLoad();
-      } else {
-        onError('Объявление не загружено. Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
-      }
-    });
-
-    xhr.addEventListener('error', function () {
-      onError('Проблема соединения с сетью');
-    });
-    xhr.addEventListener('timeout', function () {
-      onError('Загрузка объявления не была выполнена за ' + xhr.timeout + 'мс');
-    });
-
-    xhr.timeout = TIMEOUT;
-
-    xhr.open('POST', url);
-    xhr.send(data);
+    receiveXhr(METHOD.post, url, onLoad, onError).send(data);
   };
 
   window.backend = {
