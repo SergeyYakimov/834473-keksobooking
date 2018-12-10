@@ -23,15 +23,15 @@
         onError('Не получилось загрузить информацию' + TEXT_ERROR_STATUS.replace('/status/', xhr.status).replace('/statusText/', xhr.statusText));
       }
     });
-     xhr.addEventListener('error', function () {
+    xhr.addEventListener('error', function () {
       onError(TEXT_OF_ERROR);
     });
-     xhr.addEventListener('timeout', function () {
+    xhr.addEventListener('timeout', function () {
       onError(textOfTimeout);
     });
-     xhr.timeout = timeout;
-     xhr.open(method, url);
-     return xhr;
+    xhr.timeout = timeout;
+    xhr.open(method, url);
+    return xhr;
   };
 
   var load = function (url, onLoad, onError) {
