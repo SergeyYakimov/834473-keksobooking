@@ -60,22 +60,6 @@
   var INITIAL_VALUE = 'any';
   var MAX_PINS = 5;
 
-  var DEBOUNCE_INTERVAL = 500;
-
-  var debounce = function (cb) {
-    var lastTimeout = null;
-
-    return function() {
-      var parameters = arguments;
-      if (lastTimeout) {
-        window.clearTimeout(lastTimeout);
-      }
-      lastTimeout = window.setTimeout(function() {
-        cb.apply(null, parameters);
-      }, DEBOUNCE_INTERVAL);
-    };
-  };
-
   var removePinsOfMap = function () {
     var pinsOfMap = pinList.querySelectorAll('.map__pin + button:not(.map__pin--main)');
     for (var i = 0; i < pinsOfMap.length; i++) {
@@ -159,7 +143,7 @@
     updatePins();
   };
 
-  filtersForm.addEventListener('change', debounce(filterChangeHandler));
+  filtersForm.addEventListener('change', window.debounce(filterChangeHandler));
 
   var setMinPriceForAd = function () {
     var minPrice = minPriceAdType[adType.value];
