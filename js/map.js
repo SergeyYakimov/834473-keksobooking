@@ -23,16 +23,16 @@ var getMainPinCurrentPosition = function (x, y) {
 
 var makePageActive = function () {
   window.pin.map.classList.remove('map--faded');
+  window.form.adForm.classList.remove('ad-form--disabled');
+  window.form.setMinPriceForAd();
+  window.form.checkValidationOfCapacity();
+  window.form.updatePins();
   for (var i = 0; i < window.form.fieldsets.length; i++) {
     window.form.fieldsets[i].removeAttribute('disabled', 'disabled');
   }
   for (var j = 0; j < window.form.filtersFields.length; j++) {
     window.form.filtersFields[j].removeAttribute('disabled', 'disabled');
   }
-  window.form.adForm.classList.remove('ad-form--disabled');
-  window.form.setMinPriceForAd();
-  window.form.checkValidationOfCapacity();
-  window.form.updatePins();
 };
 
 for (var i = 0; i < window.form.fieldsets.length; i++) {

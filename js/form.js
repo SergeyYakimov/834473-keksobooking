@@ -57,6 +57,14 @@
   };
 
   var INITIAL_VALUE = 'any';
+  var MAX_PINS = 5;
+
+  var removeCardOfMap = function () {
+    var removableCard = window.pin.map.querySelector('.map__card');
+    if (removableCard) {
+      window.pin.map.removeChild(removableCard);
+    }
+  };
 
   var removePinsOfMap = function () {
     var pinsOfMap = pinList.querySelectorAll('.map__pin + button:not(.map__pin--main)');
@@ -68,7 +76,7 @@
   var getPinsActivePage = function (info) {
     var fragment = document.createDocumentFragment();
     if (info) {
-      var takeNumber = info.length > 5 ? 5 : info.length;
+      var takeNumber = info.length > MAX_PINS ? MAX_PINS : info.length;
       for (var i = 0; i < takeNumber; i++) {
         if ('offer' in info[i]) {
           fragment.appendChild(window.pin.makePin(info[i]));
@@ -127,6 +135,7 @@
 
   filtersForm.addEventListener('change', function () {
     removePinsOfMap();
+    removeCardOfMap();
     typeOfHousing = filterType.value;
     price = filterPrice.value;
     rooms = filterRooms.value;
@@ -214,13 +223,6 @@
   var showAddress = function (x, y) {
     var location = getMainPinCoordinats(x, y);
     adAddress.value = location.x + ',' + location.y;
-  };
-
-  var removeCardOfMap = function () {
-    var removableCard = window.pin.map.querySelector('.map__card');
-    if (removableCard) {
-      window.pin.map.removeChild(removableCard);
-    }
   };
 
   var setMainPinStartPosition = function () {
