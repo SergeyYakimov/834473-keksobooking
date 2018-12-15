@@ -45,6 +45,7 @@
   var filterRooms = filtersForm.querySelector('#housing-rooms');
   var filterSeats = filtersForm.querySelector('#housing-guests');
   var filterFeatures = filtersForm.querySelector('#housing-features');
+  var filterFeaturesInputs = filterFeatures.querySelectorAll('input');
   var typeOfHousing;
   var price;
   var rooms;
@@ -73,13 +74,6 @@
         cb.apply(null, parameters);
       }, DEBOUNCE_INTERVAL);
     };
-  };
-
-  var removeCardOfMap = function () {
-    var removableCard = window.pin.map.querySelector('.map__card');
-    if (removableCard) {
-      window.pin.map.removeChild(removableCard);
-    }
   };
 
   var removePinsOfMap = function () {
@@ -162,7 +156,7 @@
     }
     features = checkboxesFeaturesChecked.slice();
     removePinsOfMap();
-    removeCardOfMap();
+    window.pin.removeMapCard();
     updatePins();
   };
 
@@ -251,7 +245,7 @@
   };
 
   var resetMap = function () {
-    removeCardOfMap();
+    window.pin.removeMapCard();
     removePinsOfMap();
     setMainPinStartPosition();
     window.pin.map.classList.add('map--faded');
@@ -280,9 +274,20 @@
     adForm.classList.add('ad-form--disabled');
   };
 
+  var resetFilters = function () {
+    filterType.value = INITIAL_VALUE;
+    filterPrice.value = INITIAL_VALUE;
+    filterRooms.value = INITIAL_VALUE;
+    filterSeats.value = INITIAL_VALUE;
+    for (var i = 0; i < filterFeaturesInputs.length; i++) {
+      filterFeaturesInputs[i].checked = false;
+    }
+  };
+
   var resetPage = function () {
     resetAdForm();
     resetMap();
+    resetFilters();
   };
 
   adForm.addEventListener('submit', function (evt) {
