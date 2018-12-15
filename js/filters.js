@@ -78,7 +78,7 @@
         return it.offer.rooms.toString() === rooms;
       });
     }
-    if (seats && seats !== INITIAL_VALUE)  {
+    if (seats && seats !== INITIAL_VALUE) {
       necessarySimilarAds = necessarySimilarAds.filter(function (it) {
         return it.offer.guests.toString() === seats;
       });
@@ -91,7 +91,7 @@
     getPinsActivePage(necessarySimilarAds);
   };
 
-  var filterChangeHandler = function (evt) {
+  var filterChangeHandler = function () {
     typeOfHousing = filterType.value;
     price = filterPrice.value;
     rooms = filterRooms.value;
