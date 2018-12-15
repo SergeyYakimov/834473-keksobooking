@@ -26,7 +26,7 @@ var makePageActive = function () {
   window.form.adForm.classList.remove('ad-form--disabled');
   window.form.setMinPriceForAd();
   window.form.checkValidationOfCapacity();
-  window.form.updatePins();
+  window.filters.updatePins();
   for (var i = 0; i < window.form.fieldsets.length; i++) {
     window.form.fieldsets[i].removeAttribute('disabled', 'disabled');
   }
@@ -75,7 +75,7 @@ window.form.mainPin.addEventListener('mousedown', function (evt) {
 
     if (window.pin.map.classList.contains('map--faded')) {
       makePageActive();
-      window.form.getPinsActivePage();
+      window.filters.getPinsActivePage();
     }
     var mainPinClickPreventDefault = function (dragEvt) {
       dragEvt.preventDefault();
