@@ -144,7 +144,6 @@
   };
 
   var filterChangeHandler = function (evt) {
-    evt.preventDefault();
     typeOfHousing = filterType.value;
     price = filterPrice.value;
     rooms = filterRooms.value;
@@ -282,12 +281,13 @@
     for (var i = 0; i < filterFeaturesInputs.length; i++) {
       filterFeaturesInputs[i].checked = false;
     }
+    filterChangeHandler();
   };
 
   var resetPage = function () {
     resetAdForm();
-    resetMap();
     resetFilters();
+    resetMap();
   };
 
   adForm.addEventListener('submit', function (evt) {
