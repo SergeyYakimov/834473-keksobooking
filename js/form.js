@@ -95,10 +95,19 @@
     }
   };*/
 
+  var contains = function (where, what) {
+    for (var i=0; i < what.length; i++) {
+      if (where.indexOf(what[i]) === -1) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   var updatePins = function () {
 
     var sortAds = similarAds.slice();
-    var necessarySimilarAds;
+    var necessarySimilarAds = [];
     /*getPinsActivePage(sortAds.sort(function (left, right) {
       var rankDiff = getRank(right, typeOfHousing) - getRank(left, typeOfHousing);
       if (rankDiff === 0) {
@@ -110,7 +119,6 @@
       necessarySimilarAds = sortAds.filter(function (sortAd) {
         return sortAd.offer.type === typeOfHousing;
     });
-    getPinsActivePage(necessarySimilarAds);
     } else if (price) {
       var valuePrice;
       necessarySimilarAds = sortAds.filter(function (sortAd) {
@@ -123,26 +131,31 @@
         }
         return valuePrice === price;
       });
-    getPinsActivePage(necessarySimilarAds);
     } else if (rooms) {
       necessarySimilarAds = sortAds.filter(function (sortAd) {
         return sortAd.offer.rooms.toString() === rooms;
       });
-    getPinsActivePage(necessarySimilarAds);
     } else if (seats) {
       necessarySimilarAds = sortAds.filter(function (sortAd) {
         return sortAd.offer.guests.toString() === seats;
       });
-    getPinsActivePage(necessarySimilarAds);
     } else if (features) {
-      necessarySimilarAds = sortAds.filter(function (sortAd) {
-        return sortAd.offer.features === features;
-      });
-    getPinsActivePage(necessarySimilarAds);
+      for (var i = 0; i < sortAds.length; i++) {
+        if (contains(sortAds[i].offer.features, features)) {
+          necessarySimilarAds.push(sortAds[i]);
+        }
+      }
+      /*necessarySimilarAds = sortAds.filter(function (sortAd) {
+        contains(sortAd.offer.features, features);
+        if (contains)  {
+          return sortAd.offer.features;
+        }
+      });*/
     }
     else {
       getPinsActivePage(sortAds);
     }
+    getPinsActivePage(necessarySimilarAds);
   };
 
   filterType.addEventListener('change', function () {
@@ -175,6 +188,7 @@
     for (var i = 0; i < selectedFeatures.length; i++) {
       checkboxesFeaturesChecked.push(selectedFeatures[i].value);
     }
+    features = checkboxesFeaturesChecked.slice();
     removePinsOfMap();
     updatePins();
   });
