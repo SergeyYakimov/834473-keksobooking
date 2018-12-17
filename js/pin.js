@@ -79,6 +79,7 @@
   window.pin = {
     makePin: makePin,
     map: map,
-    filtersContainer: filtersContainer
+    filtersContainer: filtersContainer,
+    removeMapCard: removeMapCard
   };
 })();

@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  var STATUS = {
-    done: 200
+  var Code = {
+    DONE: 200
   };
-  var METHOD = {
-    get: 'GET',
-    post: 'POST'
+  var Method = {
+    GET: 'GET',
+    POST: 'POST'
   };
   var TEXT_ERROR_STATUS = 'Cтатус ответа: /status/ /statusText/';
   var TEXT_OF_ERROR = 'Произошла ошибка соединения c сетью';
@@ -17,7 +17,7 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      if (xhr.status === STATUS.done) {
+      if (xhr.status === Code.DONE) {
         onLoad(xhr.response);
       } else {
         onError('Не получилось загрузить информацию' + TEXT_ERROR_STATUS.replace('/status/', xhr.status).replace('/statusText/', xhr.statusText));
@@ -35,11 +35,11 @@
   };
 
   var load = function (url, onLoad, onError) {
-    receiveXhr(METHOD.get, url, onLoad, onError).send();
+    receiveXhr(Method.GET, url, onLoad, onError).send();
   };
 
   var save = function (url, data, onLoad, onError) {
-    receiveXhr(METHOD.post, url, onLoad, onError).send(data);
+    receiveXhr(Method.POST, url, onLoad, onError).send(data);
   };
 
   window.backend = {

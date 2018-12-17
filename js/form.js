@@ -36,8 +36,7 @@
   var adResetButton = adForm.querySelector('.ad-form__reset');
   var adInputs = adForm.querySelectorAll('input');
   var adSelects = adForm.querySelectorAll('select');
-  var pinList = document.querySelector('.map__pins');
-  var mainPin = pinList.querySelector('.map__pin--main');
+  var mainPin = window.filters.pinList.querySelector('.map__pin--main');
 
   var setMinPriceForAd = function () {
     var minPrice = minPriceAdType[adType.value];
@@ -115,20 +114,6 @@
     adAddress.value = location.x + ',' + location.y;
   };
 
-  var removeCardOfMap = function () {
-    var removableCard = window.pin.map.querySelector('.map__card');
-    if (removableCard) {
-      window.pin.map.removeChild(removableCard);
-    }
-  };
-
-  var removePinsOfMap = function () {
-    var pinsOfMap = pinList.querySelectorAll('.map__pin + button:not(.map__pin--main)');
-    for (var i = 0; i < pinsOfMap.length; i++) {
-      pinList.removeChild(pinsOfMap[i]);
-    }
-  };
-
   var setMainPinStartPosition = function () {
     mainPin.style.left = MAIN_PIN_START_COORDINATES.left + 'px';
     mainPin.style.top = MAIN_PIN_START_COORDINATES.top + 'px';
@@ -136,8 +121,8 @@
   };
 
   var resetMap = function () {
-    removeCardOfMap();
-    removePinsOfMap();
+    window.pin.removeMapCard();
+    window.filters.removePinsOfMap();
     setMainPinStartPosition();
     window.pin.map.classList.add('map--faded');
   };
@@ -167,6 +152,7 @@
 
   var resetPage = function () {
     resetAdForm();
+    window.filters.resetFilters();
     resetMap();
   };
 
@@ -196,11 +182,10 @@
     checkValidationOfCapacity: checkValidationOfCapacity,
     fieldsets: fieldsets,
     filtersFields: filtersFields,
-    pinList: pinList,
     mainPin: mainPin,
     mainPinWidth: MAIN_PIN_WIDTH,
     mainPinHeight: MAIN_PIN_HEIGHT,
     mainPinPointerHeight: MAIN_PIN_POINTER_HEIGHT,
-    showAddress: showAddress
+    showAddress: showAddress,
   };
 })();

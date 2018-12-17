@@ -1,6 +1,5 @@
 'use strict';
 
-var SIMILAR_ADS_URL = 'https://js.dump.academy/keksobooking/data';
 window.form.showAddress(window.form.mainPin.style.left, window.form.mainPin.style.top);
 
 var getMainPinCurrentPosition = function (x, y) {
@@ -24,26 +23,15 @@ var getMainPinCurrentPosition = function (x, y) {
 
 var makePageActive = function () {
   window.pin.map.classList.remove('map--faded');
+  window.form.adForm.classList.remove('ad-form--disabled');
+  window.form.setMinPriceForAd();
+  window.form.checkValidationOfCapacity();
+  window.filters.updatePins();
   for (var i = 0; i < window.form.fieldsets.length; i++) {
     window.form.fieldsets[i].removeAttribute('disabled', 'disabled');
   }
   for (var j = 0; j < window.form.filtersFields.length; j++) {
     window.form.filtersFields[j].removeAttribute('disabled', 'disabled');
-  }
-  window.form.adForm.classList.remove('ad-form--disabled');
-  window.form.setMinPriceForAd();
-  window.form.checkValidationOfCapacity();
-};
-
-var getPinsActivePage = function (info) {
-  var fragment = document.createDocumentFragment();
-  if (info) {
-    for (i = 0; i < info.length; i++) {
-      if ('offer' in info[i]) {
-        fragment.appendChild(window.pin.makePin(info[i]));
-      }
-    }
-    window.form.pinList.appendChild(fragment);
   }
 };
 
@@ -87,7 +75,7 @@ window.form.mainPin.addEventListener('mousedown', function (evt) {
 
     if (window.pin.map.classList.contains('map--faded')) {
       makePageActive();
-      getPinsActivePage();
+      window.filters.getPinsActivePage();
     }
     var mainPinClickPreventDefault = function (dragEvt) {
       dragEvt.preventDefault();
@@ -98,6 +86,4 @@ window.form.mainPin.addEventListener('mousedown', function (evt) {
 
   document.addEventListener('mousemove', mainPinMouseMoveHandler);
   document.addEventListener('mouseup', mainPinMouseUpHandler);
-
-  window.backend.load(SIMILAR_ADS_URL, getPinsActivePage, window.messageBlock.showError);
 });
