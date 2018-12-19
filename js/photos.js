@@ -3,13 +3,22 @@
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-  var avatarUpload = window.form.adForm.querySelector('.ad-form-header__upload');
+  var avatarUpload = document.querySelector('.ad-form-header__upload');
   var avatarChooser = avatarUpload.querySelector('input[type=file]');
-  var avatar = avatarUpload.querySelector('.ad-form-header__preview img');
-
-  var photosContainer = window.form.adForm.querySelector('.ad-form__photo-container');
+  var avatar = avatarUpload.querySelector('img');
+  var avatarSrc = avatar.getAttribute('src');
+  var photosContainer = document.querySelector('.ad-form__photo-container');
   var photosChooser = photosContainer.querySelector('input[type=file]');
-  var photosOfHousing = photosContainer.querySelector('.ad-form__photo');
+  var photoOfHousing = photosContainer.querySelector('.ad-form__photo');
+  var photoSizes = 'width: 100%; height: 100%';
+  var isFirstPhoto = true;
+
+  var resetUploadedPhotosOfHousing = function () {
+    var adPhotos = photosContainer.querySelectorAll('.ad-form__photo');
+    adPhotos.forEach(function (it) {
+      photosContainer.removeChild(it);
+    });
+  };
 
   var verifyFileName = function (fileName) {
     return FILE_TYPES.some(function (it) {
@@ -43,10 +52,13 @@
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
+        var photoBox = isFirstPhoto ? photoOfHousing : photoOfHousing.cloneNode();
         var photo = document.createElement('img');
         photo.src = reader.result;
-        photo.style = 'width: 100%; height: 100%';
-        photosOfHousing.appendChild(photo);
+        photo.style = photoSizes;
+        photoBox.appendChild(photo);
+        photosContainer.appendChild(photoBox);
+        isFirstPhoto = false;
       });
       reader.readAsDataURL(file);
     }
@@ -55,4 +67,9 @@
   avatarChooser.addEventListener('change', avatarChangeHandler);
   photosChooser.addEventListener('change', photosChangeHandler);
 
+  window.photos = {
+    avatarSrc: avatarSrc,
+    resetUploadedPhotosOfHousing: resetUploadedPhotosOfHousing,
+    avatar: avatar
+  };
 })();

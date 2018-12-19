@@ -128,6 +128,7 @@
   };
 
   var resetAdForm = function () {
+    window.photos.avatar.src = window.photos.avatarSrc;
     adTitle.value = '';
     adAddress.value = '';
     adType.value = window.data.viewHouses[1];
@@ -137,6 +138,7 @@
     adTimeOut.value = window.data.checkouts[0];
     numberOfRooms.value = numberOfRooms.options[0].value;
     numberOfSeats.value = numberOfSeats.options[2].value;
+    window.photos.resetUploadedPhotosOfHousing();
     for (var i = 0; i < adFeatures.length; i++) {
       adFeatures[i].checked = false;
     }
