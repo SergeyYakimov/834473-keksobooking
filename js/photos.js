@@ -69,11 +69,11 @@
 
     var selectedPhoto = evt.target.closest('.ad-form__photo');
 
-    var insertAfter = function (selectedPhoto, targetPhoto) {
-      if (targetPhoto.nextSibling) {
-        return photosContainer.insertBefore(selectedPhoto, targetPhoto.nextSibling);
+    var insertAfter = function (selected, target) {
+      if (target.nextSibling) {
+        return photosContainer.insertBefore(selected, target.nextSibling);
       } else {
-        return photosContainer.appendChild(selectedPhoto);
+        return photosContainer.appendChild(selected);
       }
     };
 
