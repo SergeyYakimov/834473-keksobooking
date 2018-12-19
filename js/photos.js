@@ -64,8 +64,52 @@
     }
   };
 
+  var photosDragHandler = function (evt) {
+    evt.preventDefault();
+
+    var selectedPhoto = evt.target.closest('.ad-form__photo');
+
+    var insertAfter = function (selectedPhoto, targetPhoto) {
+      if (targetPhoto.nextSibling) {
+        return photosContainer.insertBefore(selectedPhoto, targetPhoto.nextSibling);
+      } else {
+        return photosContainer.appendChild(selectedPhoto);
+      }
+    };
+
+    var photoMouseOverHandler = function (newEvt) {
+      newEvt.preventDefault();
+
+      var targetPhoto = newEvt.target.closest('.ad-form__photo');
+
+      if (targetPhoto && targetPhoto !== selectedPhoto) {
+        if (targetPhoto.offsetLeft < selectedPhoto.offsetLeft) {
+          photosContainer.insertBefore(selectedPhoto, targetPhoto);
+        } else {
+          insertAfter(selectedPhoto, targetPhoto);
+        }
+      }
+    };
+
+    var photoMouseUpHandler = function (upEvt) {
+      upEvt.preventDefault();
+
+      selectedPhoto.style.opacity = '1';
+      document.removeEventListener('mouseover', photoMouseOverHandler);
+      document.removeEventListener('mouseup', photoMouseUpHandler);
+    };
+
+    if (selectedPhoto) {
+      selectedPhoto.style.opacity = '0.1';
+
+      document.addEventListener('mouseover', photoMouseOverHandler);
+      document.addEventListener('mouseup', photoMouseUpHandler);
+    }
+  };
+
   avatarChooser.addEventListener('change', avatarChangeHandler);
   photosChooser.addEventListener('change', photosChangeHandler);
+  photosContainer.addEventListener('mousedown', photosDragHandler);
 
   window.photos = {
     avatarSrc: avatarSrc,
