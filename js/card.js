@@ -27,11 +27,11 @@
 
     var getAllFeatures = function (records) {
       var fragmentLi = document.createDocumentFragment();
-      for (var i = 0; i < records.length; i++) {
+      records.forEach(function (record) {
         var newLi = document.createElement('li');
-        newLi.classList.add('popup__feature', 'popup__feature--' + records[i]);
+        newLi.classList.add('popup__feature', 'popup__feature--' + record);
         fragmentLi.appendChild(newLi);
-      }
+      });
       return fragmentLi;
     };
 
@@ -44,11 +44,11 @@
       var firstImg = list.querySelector('.popup__photo');
       firstImg.src = photos[0];
 
-      for (var i = 1; i < photos.length; i++) {
+      photos.forEach(function (photo) {
         var newPhoto = firstImg.cloneNode();
-        newPhoto.src = photos[i];
+        newPhoto.src = photo;
         list.appendChild(newPhoto);
-      }
+      });
     };
 
     cardElement.querySelector('.popup__title').textContent = card.offer.title;

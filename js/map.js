@@ -3,18 +3,18 @@
 window.form.showAddress(window.form.mainPin.style.left, window.form.mainPin.style.top);
 
 var getMainPinCurrentPosition = function (x, y) {
-  if ((window.form.mainPin.offsetTop - y) < (window.data.minY - window.form.mainPinHeight - window.form.mainPinPointerHeight)) {
-    window.form.mainPin.style.top = (window.data.minY - window.form.mainPinHeight - window.form.mainPinPointerHeight) + 'px';
-  } else if ((window.form.mainPin.offsetTop - y) > (window.data.maxY - window.form.mainPinHeight - window.form.mainPinPointerHeight)) {
-    window.form.mainPin.style.top = (window.data.maxY - window.form.mainPinHeight - window.form.mainPinPointerHeight) + 'px';
+  if ((window.form.mainPin.offsetTop - y) < (window.constants.minY - window.form.mainPinHeight - window.form.mainPinPointerHeight)) {
+    window.form.mainPin.style.top = (window.constants.minY - window.form.mainPinHeight - window.form.mainPinPointerHeight) + 'px';
+  } else if ((window.form.mainPin.offsetTop - y) > (window.constants.maxY - window.form.mainPinHeight - window.form.mainPinPointerHeight)) {
+    window.form.mainPin.style.top = (window.constants.maxY - window.form.mainPinHeight - window.form.mainPinPointerHeight) + 'px';
   } else {
     window.form.mainPin.style.top = (window.form.mainPin.offsetTop - y) + 'px';
   }
 
-  if ((window.form.mainPin.offsetLeft - x) < (window.data.minX - window.form.mainPinWidth / 2)) {
-    window.form.mainPin.style.left = (window.data.minX - window.form.mainPinWidth / 2) + 'px';
-  } else if ((window.form.mainPin.offsetLeft - x) > (window.data.maxX - window.form.mainPinWidth)) {
-    window.form.mainPin.style.left = (window.data.maxX - window.form.mainPinWidth / 2) + 'px';
+  if ((window.form.mainPin.offsetLeft - x) < (window.constants.minX - window.form.mainPinWidth / 2)) {
+    window.form.mainPin.style.left = (window.constants.minX - window.form.mainPinWidth / 2) + 'px';
+  } else if ((window.form.mainPin.offsetLeft - x) > (window.constants.maxX - window.form.mainPinWidth)) {
+    window.form.mainPin.style.left = (window.constants.maxX - window.form.mainPinWidth / 2) + 'px';
   } else {
     window.form.mainPin.style.left = (window.form.mainPin.offsetLeft - x) + 'px';
   }

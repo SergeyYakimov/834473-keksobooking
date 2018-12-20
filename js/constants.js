@@ -9,7 +9,7 @@
   var CHECKINS = ['12:00', '13:00', '14:00'];
   var CHECKOUTS = ['12:00', '13:00', '14:00'];
 
-  window.data = {
+  window.constants = {
     minX: MIN_X,
     minY: MIN_Y,
     maxX: MAX_X,
