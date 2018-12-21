@@ -27,21 +27,21 @@ var makePageActive = function () {
   window.form.setMinPriceForAd();
   window.form.checkValidationOfCapacity();
   window.filters.updatePins();
-  for (var i = 0; i < window.form.fieldsets.length; i++) {
-    window.form.fieldsets[i].removeAttribute('disabled', 'disabled');
-  }
-  for (var j = 0; j < window.form.filtersFields.length; j++) {
-    window.form.filtersFields[j].removeAttribute('disabled', 'disabled');
-  }
+  Array.from(window.form.fieldsets).forEach(function (fieldset) {
+    fieldset.disabled = false;
+  });
+  Array.from(window.form.filtersFields).forEach(function (field) {
+    field.disabled = false;
+  });
 };
 
-for (var i = 0; i < window.form.fieldsets.length; i++) {
-  window.form.fieldsets[i].setAttribute('disabled', 'disabled');
-}
+Array.from(window.form.fieldsets).forEach(function (fieldset) {
+  fieldset.disabled = true;
+});
 
-for (i = 0; i < window.form.filtersFields.length; i++) {
-  window.form.filtersFields[i].setAttribute('disabled', 'disabled');
-}
+Array.from(window.form.filtersFields).forEach(function (field) {
+  field.disabled = true;
+});
 
 window.form.mainPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
