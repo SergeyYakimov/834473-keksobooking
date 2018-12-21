@@ -2,13 +2,19 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var DropBoxBorderColors = {
+    hover: '#7cfc00',
+    reset: '#c7c7c7'
+  };
 
   var avatarUpload = document.querySelector('.ad-form-header__upload');
   var avatarChooser = avatarUpload.querySelector('input[type=file]');
+  var avatarDropBox = avatarUpload.querySelector('.ad-form-header__drop-zone');
   var avatar = avatarUpload.querySelector('img');
   var avatarSrc = avatar.getAttribute('src');
   var photosContainer = document.querySelector('.ad-form__photo-container');
   var photosChooser = photosContainer.querySelector('input[type=file]');
+  var photosDropBox = photosContainer.querySelector('.ad-form__drop-zone');
   var photoOfHousing = photosContainer.querySelector('.ad-form__photo');
   var photoSizes = 'width: 100%; height: 100%';
   var isFirstPhoto = true;
@@ -26,12 +32,8 @@
     });
   };
 
-  var avatarChangeHandler = function (evt) {
-    evt.preventDefault();
-
-    var file = avatarChooser.files[0];
+  var makeAvatar = function (file) {
     var fileName = file.name.toLowerCase();
-
     if (verifyFileName(fileName)) {
       var reader = new FileReader();
 
@@ -42,10 +44,7 @@
     }
   };
 
-  var photosChangeHandler = function (evt) {
-    evt.preventDefault();
-
-    var file = photosChooser.files[0];
+  var makePhoto = function (file) {
     var fileName = file.name.toLowerCase();
 
     if (verifyFileName(fileName)) {
@@ -64,16 +63,29 @@
     }
   };
 
+  var avatarChangeHandler = function (evt) {
+    evt.preventDefault();
+    var file = avatarChooser.files[0];
+    makeAvatar(file);
+  };
+
+  var photosChangeHandler = function (evt) {
+    evt.preventDefault();
+    var file = photosChooser.files[0];
+    makePhoto(file);
+  };
+
   var photosDragHandler = function (evt) {
     evt.preventDefault();
 
     var selectedPhoto = evt.target.closest('.ad-form__photo');
 
     var insertAfter = function (selected, target) {
+      var parentOfTarget = target.parentNode;
       if (target.nextSibling) {
-        return photosContainer.insertBefore(selected, target.nextSibling);
+        return parentOfTarget.insertBefore(selected, target.nextSibling);
       } else {
-        return photosContainer.appendChild(selected);
+        return parentOfTarget.appendChild(selected);
       }
     };
 
@@ -107,13 +119,51 @@
     }
   };
 
+  var imageDragEnterHandler = function (evt) {
+    evt.preventDefault();
+    var target = evt.target;
+    target.style.borderColor = DropBoxBorderColors.hover;
+  };
+
+  var imageDragLeaveHandler = function (evt) {
+    evt.preventDefault();
+    var target = evt.target;
+    target.style.borderColor = DropBoxBorderColors.reset;
+  };
+
+  var imageDropHandler = function (evt) {
+    evt.preventDefault();
+    var file = evt.dataTransfer.files[0];
+    makeAvatar(file);
+    avatarDropBox.style.borderColor = DropBoxBorderColors.reset;
+  };
+
+  var photosDropHandler = function (evt) {
+    evt.preventDefault();
+    var file = evt.dataTransfer.files[0];
+    makePhoto(file);
+    photosDropBox.style.borderColor = DropBoxBorderColors.reset;
+  };
+
+  var imageDragHandler = function (evt) {
+    evt.preventDefault();
+  };
+
   avatarChooser.addEventListener('change', avatarChangeHandler);
   photosChooser.addEventListener('change', photosChangeHandler);
   photosContainer.addEventListener('mousedown', photosDragHandler);
+  avatarDropBox.addEventListener('dragover', imageDragHandler);
+  photosDropBox.addEventListener('dragover', imageDragHandler);
 
   window.photos = {
     avatarSrc: avatarSrc,
     resetUploadedPhotosOfHousing: resetUploadedPhotosOfHousing,
-    avatar: avatar
+    avatar: avatar,
+    avatarDropBox: avatarDropBox,
+    photosDropBox: photosDropBox,
+    imageDropHandler: imageDropHandler,
+    photosDropHandler: photosDropHandler,
+    imageDragEnterHandler: imageDragEnterHandler,
+    imageDragLeaveHandler: imageDragLeaveHandler
   };
 })();

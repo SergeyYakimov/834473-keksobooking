@@ -142,6 +142,12 @@
     numberOfRooms.value = numberOfRooms.options[0].value;
     numberOfSeats.value = numberOfSeats.options[2].value;
     window.photos.resetUploadedPhotosOfHousing();
+    window.photos.avatarDropBox.removeEventListener('drop', window.photos.imageDropHandler);
+    window.photos.photosDropBox.removeEventListener('drop', window.photos.photosDropHandler);
+    window.photos.avatarDropBox.removeEventListener('dragenter', window.photos.imageDragEnterHandler);
+    window.photos.avatarDropBox.removeEventListener('dragleave', window.photos.imageDragLeaveHandler);
+    window.photos.photosDropBox.removeEventListener('dragenter', window.photos.imageDragEnterHandler);
+    window.photos.photosDropBox.removeEventListener('dragleave', window.photos.imageDragLeaveHandler);
     Array.from(adFeatures).forEach(function (adfeature) {
       adfeature.checked = false;
     });

@@ -33,6 +33,12 @@ var makePageActive = function () {
   Array.from(window.form.filtersFields).forEach(function (field) {
     field.disabled = false;
   });
+  window.photos.avatarDropBox.addEventListener('drop', window.photos.imageDropHandler);
+  window.photos.photosDropBox.addEventListener('drop', window.photos.photosDropHandler);
+  window.photos.avatarDropBox.addEventListener('dragenter', window.photos.imageDragEnterHandler);
+  window.photos.avatarDropBox.addEventListener('dragleave', window.photos.imageDragLeaveHandler);
+  window.photos.photosDropBox.addEventListener('dragenter', window.photos.imageDragEnterHandler);
+  window.photos.photosDropBox.addEventListener('dragleave', window.photos.imageDragLeaveHandler);
 };
 
 Array.from(window.form.fieldsets).forEach(function (fieldset) {
