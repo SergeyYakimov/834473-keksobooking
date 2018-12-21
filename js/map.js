@@ -3,18 +3,18 @@
 window.form.showAddress(window.form.mainPin.style.left, window.form.mainPin.style.top);
 
 var getMainPinCurrentPosition = function (x, y) {
-  if ((window.form.mainPin.offsetTop - y) < (window.data.minY - window.form.mainPinHeight - window.form.mainPinPointerHeight)) {
-    window.form.mainPin.style.top = (window.data.minY - window.form.mainPinHeight - window.form.mainPinPointerHeight) + 'px';
-  } else if ((window.form.mainPin.offsetTop - y) > (window.data.maxY - window.form.mainPinHeight - window.form.mainPinPointerHeight)) {
-    window.form.mainPin.style.top = (window.data.maxY - window.form.mainPinHeight - window.form.mainPinPointerHeight) + 'px';
+  if ((window.form.mainPin.offsetTop - y) < (window.constants.minY - window.form.mainPinHeight - window.form.mainPinPointerHeight)) {
+    window.form.mainPin.style.top = (window.constants.minY - window.form.mainPinHeight - window.form.mainPinPointerHeight) + 'px';
+  } else if ((window.form.mainPin.offsetTop - y) > (window.constants.maxY - window.form.mainPinHeight - window.form.mainPinPointerHeight)) {
+    window.form.mainPin.style.top = (window.constants.maxY - window.form.mainPinHeight - window.form.mainPinPointerHeight) + 'px';
   } else {
     window.form.mainPin.style.top = (window.form.mainPin.offsetTop - y) + 'px';
   }
 
-  if ((window.form.mainPin.offsetLeft - x) < (window.data.minX - window.form.mainPinWidth / 2)) {
-    window.form.mainPin.style.left = (window.data.minX - window.form.mainPinWidth / 2) + 'px';
-  } else if ((window.form.mainPin.offsetLeft - x) > (window.data.maxX - window.form.mainPinWidth)) {
-    window.form.mainPin.style.left = (window.data.maxX - window.form.mainPinWidth / 2) + 'px';
+  if ((window.form.mainPin.offsetLeft - x) < (window.constants.minX - window.form.mainPinWidth / 2)) {
+    window.form.mainPin.style.left = (window.constants.minX - window.form.mainPinWidth / 2) + 'px';
+  } else if ((window.form.mainPin.offsetLeft - x) > (window.constants.maxX - window.form.mainPinWidth)) {
+    window.form.mainPin.style.left = (window.constants.maxX - window.form.mainPinWidth / 2) + 'px';
   } else {
     window.form.mainPin.style.left = (window.form.mainPin.offsetLeft - x) + 'px';
   }
@@ -27,21 +27,27 @@ var makePageActive = function () {
   window.form.setMinPriceForAd();
   window.form.checkValidationOfCapacity();
   window.filters.updatePins();
-  for (var i = 0; i < window.form.fieldsets.length; i++) {
-    window.form.fieldsets[i].removeAttribute('disabled', 'disabled');
-  }
-  for (var j = 0; j < window.form.filtersFields.length; j++) {
-    window.form.filtersFields[j].removeAttribute('disabled', 'disabled');
-  }
+  Array.from(window.form.fieldsets).forEach(function (fieldset) {
+    fieldset.disabled = false;
+  });
+  Array.from(window.form.filtersFields).forEach(function (field) {
+    field.disabled = false;
+  });
+  window.photos.avatarDropBox.addEventListener('drop', window.photos.imageDropHandler);
+  window.photos.photosDropBox.addEventListener('drop', window.photos.photosDropHandler);
+  window.photos.avatarDropBox.addEventListener('dragenter', window.photos.imageDragEnterHandler);
+  window.photos.avatarDropBox.addEventListener('dragleave', window.photos.imageDragLeaveHandler);
+  window.photos.photosDropBox.addEventListener('dragenter', window.photos.imageDragEnterHandler);
+  window.photos.photosDropBox.addEventListener('dragleave', window.photos.imageDragLeaveHandler);
 };
 
-for (var i = 0; i < window.form.fieldsets.length; i++) {
-  window.form.fieldsets[i].setAttribute('disabled', 'disabled');
-}
+Array.from(window.form.fieldsets).forEach(function (fieldset) {
+  fieldset.disabled = true;
+});
 
-for (i = 0; i < window.form.filtersFields.length; i++) {
-  window.form.filtersFields[i].setAttribute('disabled', 'disabled');
-}
+Array.from(window.form.filtersFields).forEach(function (field) {
+  field.disabled = true;
+});
 
 window.form.mainPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();

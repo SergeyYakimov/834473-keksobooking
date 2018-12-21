@@ -20,6 +20,11 @@
     palace: '10000'
   };
 
+  var borderStyle = {
+    adding: '2px solid red',
+    exception: 'none'
+  };
+
   var fieldsets = document.querySelectorAll('fieldset');
   var filtersFields = window.pin.filtersContainer.querySelectorAll('select');
   var adForm = document.querySelector('.ad-form');
@@ -85,25 +90,23 @@
   });
 
   adForm.addEventListener('submit', function () {
-    for (var i = 0; i < adInputs.length; i++) {
-      var input = adInputs[i];
-      if (input.checkValidity() === false) {
-        input.setAttribute('style', 'border: 2px solid red');
+    Array.from(adInputs).forEach(function (adinput) {
+      if (adinput.checkValidity() === false) {
+        adinput.style.border = borderStyle.adding;
       } else {
-        input.removeAttribute('style', 'border: 2px solid red');
+        adinput.style.border = borderStyle.exception;
       }
-    }
-    for (var j = 0; j < adSelects.length; j++) {
-      var select = adSelects[j];
-      if (select.checkValidity() === false) {
-        select.setAttribute('style', 'border: 2px solid red');
+    });
+    Array.from(adSelects).forEach(function (adselect) {
+      if (adselect.checkValidity() === false) {
+        adselect.style.border = borderStyle.adding;
       } else {
-        select.removeAttribute('style', 'border: 2px solid red');
+        adselect.style.border = borderStyle.exception;
       }
-    }
+    });
   });
 
-  adAddress.setAttribute('readonly', 'readonly');
+  adAddress.readonly = true;
 
   var getMainPinCoordinats = function (x, y) {
     return {x: Math.floor(parseInt(x, 10) + MAIN_PIN_WIDTH / 2), y: Math.floor(parseInt(y, 10) + MAIN_PIN_HEIGHT + MAIN_PIN_POINTER_HEIGHT)};
@@ -128,25 +131,33 @@
   };
 
   var resetAdForm = function () {
+    window.photos.avatar.src = window.photos.avatarSrc;
     adTitle.value = '';
     adAddress.value = '';
-    adType.value = window.data.viewHouses[1];
+    adType.value = window.constants.viewHouses[1];
     adPrice.value = '';
     setMinPriceForAd();
-    adTimeIn.value = window.data.checkins[0];
-    adTimeOut.value = window.data.checkouts[0];
+    adTimeIn.value = window.constants.checkins[0];
+    adTimeOut.value = window.constants.checkouts[0];
     numberOfRooms.value = numberOfRooms.options[0].value;
     numberOfSeats.value = numberOfSeats.options[2].value;
-    for (var i = 0; i < adFeatures.length; i++) {
-      adFeatures[i].checked = false;
-    }
+    window.photos.resetUploadedPhotosOfHousing();
+    window.photos.avatarDropBox.removeEventListener('drop', window.photos.imageDropHandler);
+    window.photos.photosDropBox.removeEventListener('drop', window.photos.photosDropHandler);
+    window.photos.avatarDropBox.removeEventListener('dragenter', window.photos.imageDragEnterHandler);
+    window.photos.avatarDropBox.removeEventListener('dragleave', window.photos.imageDragLeaveHandler);
+    window.photos.photosDropBox.removeEventListener('dragenter', window.photos.imageDragEnterHandler);
+    window.photos.photosDropBox.removeEventListener('dragleave', window.photos.imageDragLeaveHandler);
+    Array.from(adFeatures).forEach(function (adfeature) {
+      adfeature.checked = false;
+    });
     adDescription.value = '';
-    for (var j = 0; j < fieldsets.length; j++) {
-      fieldsets[j].setAttribute('disabled', 'disabled');
-    }
-    for (var k = 0; k < filtersFields.length; k++) {
-      filtersFields[k].setAttribute('disabled', 'disabled');
-    }
+    Array.from(fieldsets).forEach(function (fieldset) {
+      fieldset.disabled = true;
+    });
+    Array.from(filtersFields).forEach(function (field) {
+      field.disabled = true;
+    });
     adForm.classList.add('ad-form--disabled');
   };
 

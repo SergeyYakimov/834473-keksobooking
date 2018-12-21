@@ -26,31 +26,34 @@
 
   var removePinsOfMap = function () {
     var pinsOfMap = pinList.querySelectorAll('.map__pin + button:not(.map__pin--main)');
-    for (var i = 0; i < pinsOfMap.length; i++) {
-      pinList.removeChild(pinsOfMap[i]);
-    }
+    Array.from(pinsOfMap).forEach(function (pinOfMap) {
+      pinList.removeChild(pinOfMap);
+    });
   };
 
   var getPinsActivePage = function (info) {
     var fragment = document.createDocumentFragment();
     if (info) {
-      var takeNumber = info.length > MAX_PINS ? MAX_PINS : info.length;
-      for (var i = 0; i < takeNumber; i++) {
-        if ('offer' in info[i]) {
-          fragment.appendChild(window.pin.makePin(info[i]));
+      info.forEach(function (element, index) {
+        var takeNumber = info.length > MAX_PINS ? MAX_PINS : info.length;
+        if (index < takeNumber) {
+          if ('offer' in element) {
+            fragment.appendChild(window.pin.makePin(element));
+          }
         }
-      }
+      });
       pinList.appendChild(fragment);
     }
   };
 
   var contains = function (where, what) {
-    for (var i = 0; i < what.length; i++) {
-      if (where.indexOf(what[i]) === -1) {
-        return false;
+    var counter = 0;
+    what.forEach(function (element) {
+      if (where.indexOf(element) === -1) {
+        counter++;
       }
-    }
-    return true;
+    });
+    return counter === 0 ? true : false;
   };
 
   var updatePins = function () {
@@ -98,9 +101,9 @@
     seats = filterSeats.value;
     var selectedFeatures = filterFeatures.querySelectorAll('input:checked');
     var checkboxesFeaturesChecked = [];
-    for (var i = 0; i < selectedFeatures.length; i++) {
-      checkboxesFeaturesChecked.push(selectedFeatures[i].value);
-    }
+    Array.from(selectedFeatures).forEach(function (feature) {
+      checkboxesFeaturesChecked.push(feature.value);
+    });
     features = checkboxesFeaturesChecked.slice();
     removePinsOfMap();
     window.pin.removeMapCard();
@@ -114,9 +117,9 @@
     filterPrice.value = INITIAL_VALUE;
     filterRooms.value = INITIAL_VALUE;
     filterSeats.value = INITIAL_VALUE;
-    for (var i = 0; i < filterFeaturesInputs.length; i++) {
-      filterFeaturesInputs[i].checked = false;
-    }
+    Array.from(filterFeaturesInputs).forEach(function (input) {
+      input.checked = false;
+    });
     filterChangeHandler();
   };
 
