@@ -91,11 +91,23 @@
 
     var photoMouseOverHandler = function (newEvt) {
       newEvt.preventDefault();
+      var photosOfAd = photosContainer.querySelectorAll('.ad-form__photo');
+      var getIndex = function (it) {
+        var meaning;
+        Array.from(photosOfAd).forEach(function (photoOfAd, index) {
+          if (photoOfAd === it) {
+            meaning = index;
+          }
+        });
+        return meaning;
+      };
 
       var targetPhoto = newEvt.target.closest('.ad-form__photo');
+      var targetIndex = getIndex(targetPhoto);
+      var selectIndex = getIndex(selectedPhoto);
 
       if (targetPhoto && targetPhoto !== selectedPhoto) {
-        if (targetPhoto.offsetLeft < selectedPhoto.offsetLeft) {
+        if (targetIndex < selectIndex) {
           photosContainer.insertBefore(selectedPhoto, targetPhoto);
         } else {
           insertAfter(selectedPhoto, targetPhoto);
