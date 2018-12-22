@@ -141,13 +141,13 @@
     adTimeOut.value = window.constants.checkouts[0];
     numberOfRooms.value = numberOfRooms.options[0].value;
     numberOfSeats.value = numberOfSeats.options[2].value;
-    window.photos.resetUploadedPhotosOfHousing();
+    window.photos.resetUploadedPicturesOfHousing();
     window.photos.avatarDropBox.removeEventListener('drop', window.photos.imageDropHandler);
-    window.photos.photosDropBox.removeEventListener('drop', window.photos.photosDropHandler);
+    window.photos.picturesDropBox.removeEventListener('drop', window.photos.picturesDropHandler);
     window.photos.avatarDropBox.removeEventListener('dragenter', window.photos.imageDragEnterHandler);
     window.photos.avatarDropBox.removeEventListener('dragleave', window.photos.imageDragLeaveHandler);
-    window.photos.photosDropBox.removeEventListener('dragenter', window.photos.imageDragEnterHandler);
-    window.photos.photosDropBox.removeEventListener('dragleave', window.photos.imageDragLeaveHandler);
+    window.photos.picturesDropBox.removeEventListener('dragenter', window.photos.imageDragEnterHandler);
+    window.photos.picturesDropBox.removeEventListener('dragleave', window.photos.imageDragLeaveHandler);
     Array.from(adFeatures).forEach(function (adfeature) {
       adfeature.checked = false;
     });
@@ -163,7 +163,7 @@
 
   var resetPage = function () {
     resetAdForm();
-    window.filters.resetFilters();
+    window.filters.reset();
     resetMap();
   };
 
@@ -187,7 +187,7 @@
   });
 
   window.form = {
-    adForm: adForm,
+    adArea: adForm,
     adAddress: adAddress,
     setMinPriceForAd: setMinPriceForAd,
     checkValidationOfCapacity: checkValidationOfCapacity,

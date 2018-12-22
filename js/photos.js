@@ -169,12 +169,12 @@
 
   window.photos = {
     avatarSrc: avatarSrc,
-    resetUploadedPhotosOfHousing: resetUploadedPhotosOfHousing,
+    resetUploadedPicturesOfHousing: resetUploadedPhotosOfHousing,
     avatar: avatar,
     avatarDropBox: avatarDropBox,
-    photosDropBox: photosDropBox,
+    picturesDropBox: photosDropBox,
     imageDropHandler: imageDropHandler,
-    photosDropHandler: photosDropHandler,
+    picturesDropHandler: photosDropHandler,
     imageDragEnterHandler: imageDragEnterHandler,
     imageDragLeaveHandler: imageDragLeaveHandler
   };

@@ -78,6 +78,6 @@
   };
 
   window.card = {
-    renderCard: renderCard
+    create: renderCard
   };
 })();

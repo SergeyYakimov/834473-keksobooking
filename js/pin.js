@@ -58,7 +58,7 @@
       deactivatePin();
       removeMapCard();
       pinElement.classList.add('map__pin--active');
-      var newCard = window.card.renderCard(pinInfo);
+      var newCard = window.card.create(pinInfo);
       map.insertBefore(newCard, filtersContainer);
       getClosePopup();
     };
@@ -77,7 +77,7 @@
   };
 
   window.pin = {
-    makePin: makePin,
+    makeMark: makePin,
     map: map,
     filtersContainer: filtersContainer,
     removeMapCard: removeMapCard

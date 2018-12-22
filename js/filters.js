@@ -1,7 +1,13 @@
 'use strict';
 
 (function () {
+  var MAX_PINS = 5;
+  var INITIAL_VALUE = 'any';
   var SIMILAR_ADS_URL = 'https://js.dump.academy/keksobooking/data';
+  var Price = {
+    LOW: 10000,
+    HIGH: 50000
+  };
   var pinList = document.querySelector('.map__pins');
   var filtersForm = document.querySelector('.map__filters');
   var filterType = filtersForm.querySelector('#housing-type');
@@ -16,13 +22,6 @@
   var seats;
   var features;
   var similarAds = [];
-  var Price = {
-    LOW: 10000,
-    HIGH: 50000
-  };
-
-  var INITIAL_VALUE = 'any';
-  var MAX_PINS = 5;
 
   var removePinsOfMap = function () {
     var pinsOfMap = pinList.querySelectorAll('.map__pin + button:not(.map__pin--main)');
@@ -38,7 +37,7 @@
         var takeNumber = info.length > MAX_PINS ? MAX_PINS : info.length;
         if (index < takeNumber) {
           if ('offer' in element) {
-            fragment.appendChild(window.pin.makePin(element));
+            fragment.appendChild(window.pin.makeMark(element));
           }
         }
       });
@@ -130,7 +129,7 @@
   window.backend.load(SIMILAR_ADS_URL, successHandler, window.messageBlock.showError);
 
   window.filters = {
-    resetFilters: resetFilters,
+    reset: resetFilters,
     updatePins: updatePins,
     getPinsActivePage: getPinsActivePage,
     removePinsOfMap: removePinsOfMap,

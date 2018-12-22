@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var TEXT_ERROR_STATUS = 'Cтатус ответа: /status/ /statusText/';
+  var TEXT_OF_ERROR = 'Произошла ошибка соединения c сетью';
   var Code = {
     DONE: 200
   };
@@ -8,8 +10,6 @@
     GET: 'GET',
     POST: 'POST'
   };
-  var TEXT_ERROR_STATUS = 'Cтатус ответа: /status/ /statusText/';
-  var TEXT_OF_ERROR = 'Произошла ошибка соединения c сетью';
   var timeout = 15000;
   var textOfTimeout = 'Запрос на сервер не успел выполниться за ' + timeout + 'мс';
 

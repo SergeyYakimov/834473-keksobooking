@@ -23,7 +23,7 @@ var getMainPinCurrentPosition = function (x, y) {
 
 var makePageActive = function () {
   window.pin.map.classList.remove('map--faded');
-  window.form.adForm.classList.remove('ad-form--disabled');
+  window.form.adArea.classList.remove('ad-form--disabled');
   window.form.setMinPriceForAd();
   window.form.checkValidationOfCapacity();
   window.filters.updatePins();
@@ -34,11 +34,11 @@ var makePageActive = function () {
     field.disabled = false;
   });
   window.photos.avatarDropBox.addEventListener('drop', window.photos.imageDropHandler);
-  window.photos.photosDropBox.addEventListener('drop', window.photos.photosDropHandler);
+  window.photos.picturesDropBox.addEventListener('drop', window.photos.picturesDropHandler);
   window.photos.avatarDropBox.addEventListener('dragenter', window.photos.imageDragEnterHandler);
   window.photos.avatarDropBox.addEventListener('dragleave', window.photos.imageDragLeaveHandler);
-  window.photos.photosDropBox.addEventListener('dragenter', window.photos.imageDragEnterHandler);
-  window.photos.photosDropBox.addEventListener('dragleave', window.photos.imageDragLeaveHandler);
+  window.photos.picturesDropBox.addEventListener('dragenter', window.photos.imageDragEnterHandler);
+  window.photos.picturesDropBox.addEventListener('dragleave', window.photos.imageDragLeaveHandler);
 };
 
 Array.from(window.form.fieldsets).forEach(function (fieldset) {
